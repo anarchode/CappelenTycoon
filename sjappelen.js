@@ -239,7 +239,7 @@ class Game {
             this.msg.push("Busted. woops.");
             return;
         }
-        this.status += 1;);
+        this.status += 1;
         this.inventory.push(dope);
         this.money -= price;
         this.heat += Math.floor(Math.random()*10);
