@@ -549,11 +549,11 @@ function draw_worker_page(the_game) {
 
 
 function flowers_page(the_game) {
-    ctx.font = "12px Times New Roman";
+    ctx.font = "14px Courier";
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(PAGE_X,PAGE_Y,450,30);
+    ctx.fillRect(PAGE_X,PAGE_Y,750,30);
     ctx.strokeText(the_game.flower_msg , PAGE_X, PAGE_Y+15);
-    ctx.drawImage(jensen,PAGE_X, PAGE_Y+100);
+    ctx.drawImage(jens,PAGE_X, PAGE_Y+100);
 }
 
 function draw_prison_page(the_game) {
