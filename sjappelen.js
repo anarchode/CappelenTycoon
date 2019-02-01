@@ -444,7 +444,7 @@ function buy_menu(the_game) {
     var stash = [];
     for (var i=0; i<the_game.new_stash.length; i++) {
         stash.push(add_menu_item(the_game.new_stash[i].quantity + "g " + the_game.new_stash[i].name + ": " + the_game.new_stash[i].quantity*the_game.new_stash[i].price + "kr",
-                    the_game.buy, [the_game.new_stash[i], the_game.new_stash[i].quantity*the_game.new_stash[i].quality*2]));
+                    the_game.buy, [the_game.new_stash[i], the_game.new_stash[i].quantity*the_game.new_stash[i].price]));
     }
     stash.push(add_menu_item("Tilbake", function() {the_game.menu = false}));
     the_game.menu = stash;
