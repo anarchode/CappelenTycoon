@@ -115,6 +115,8 @@ class Game {
             this.status += 1;
         }
 
+        
+
         //NEW DAY NEW DRUGS NEW FUN
         console.log("DEPT: " + this.dept);
         this.day += 1;
@@ -160,6 +162,11 @@ class Game {
         this.new_hires = this.generate_workers()       
 
         
+        if (this.heat >= 100) {
+            this.status = -365*21;
+            this.msg.push("Busted, pass på heaten!");
+        }
+
     }
 
 
@@ -185,7 +192,6 @@ class Game {
         var d = [];
         for (var i=0; i<Math.random()*6; i++) {
             var quantity = (1+Math.floor(Math.random()*(1+(this.status/10))))*100;
-            //quantity = Math.floor(Math.random()*1000)
             var quality = 7+Math.floor(Math.random()*(20+this.status));
             d.push(new Dope(dope_name(), quantity, quality));
 
@@ -195,10 +201,10 @@ class Game {
 
 
     generate_worker() {
-        var stability = Math.floor(Math.random()*60+40);
-        var skill = Math.floor((this.status/2)*Math.random()+stability*Math.random());
-        var network = Math.floor(Math.abs(skill-stability)*Math.random());
-        var heat = Math.floor(Math.random()*stability/2+Math.random()*stability/2);
+        var stability = 1+Math.floor(Math.random()*60+40);
+        var skill = 1 +Math.floor((this.status/2)*Math.random()+stability*Math.random());
+        var network = 1 + Math.floor(Math.abs(skill-stability)*Math.random());
+        var heat = 1+ Math.floor(Math.random()*stability/2+Math.random()*stability/2);
         var cost = Math.floor(skill*100+stability*50+network*100-this.status*100);
         return new Worker(stability, skill, network, heat, cost);
     }
@@ -230,7 +236,7 @@ class Game {
     buy(dope, price) {
         this.update_tick();
         this.page = draw_inventory_page;
-        if (Math.random()*200 < dope.risk) {
+        if (Math.random()*300 < dope.risk) {
             this.inventory = [];
             this.workers = [];
             this.heat = 100;
@@ -328,9 +334,10 @@ class Dope {
         this.quantity = quantity;
         this.quality = quality;
         this.risk = Math.floor(Math.random()*70)+1;
-        this.price = Math.floor((Math.random()*10+quality*2+30) /  (quantity/800));
+        this.price =  Math.floor(((110 + quality/3 - this.risk/2 + Math.random()*10) - (quantity/100)*Math.random()*5))  ;
         if (this.price > 120) {
             this.price = 120;
+
         }
         this.origin = dope_origin();
         this.good_deal = this.get_good_deal();
@@ -509,11 +516,11 @@ function draw_stats(the_game) {
     ctx.font = "15px Courier";
     ctx.strokeRect(5,5,300,95);
     ctx.strokeText("KR: " + the_game.money, 20, 20);
-    ctx.strokeText("DAG: " + the_game.day, 130, 20);
+    ctx.strokeText("DAG: " + the_game.day, 140, 20);
     ctx.strokeText("NETTVERK: " + the_game.network, 20, 40);
-    ctx.strokeText("HEAT: " + the_game.heat, 130, 40);
+    ctx.strokeText("HEAT: " + the_game.heat, 140, 40);
     ctx.strokeText("ANSATTE: " + the_game.workers.length, 20, 60);
-    ctx.strokeText("LÅN: " + the_game.dept, 130, 60);
+    ctx.strokeText("LÅN: " + the_game.dept, 140, 60);
     ctx.strokeText("STATUS: " + status_name(the_game.status), 20, 80);
 }
 
