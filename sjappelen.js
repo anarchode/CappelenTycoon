@@ -248,7 +248,7 @@ class Game {
         this.status += 1;
         this.inventory.push(dope);
         this.money -= price;
-        this.heat += Math.floor(Math.random()*10);
+        this.heat += Math.floor(this.avg_worker_heat()/10);
         this.msg.push("Kjøpt " + dope.quantity + "g " + dope.name);
     }
 
@@ -259,7 +259,6 @@ class Game {
         this.money += price;
         var index = this.inventory.indexOf(dope);
         this.inventory.splice(index,1);
-        console.log(price);
         if (price < dope.quantity*dope.price ) {
             this.msg.push("Solgt " + dope.quantity + "g " + dope.name + " med " + Math.abs(price-(dope.quantity*dope.price)) + "kr tap");
         }
@@ -393,6 +392,7 @@ function generate_menu(the_game) {
         the_game.page = draw_prison_page;
         menu.push(add_menu_item("Slapp av litt", the_game.update_tick, []));
         menu.push(add_menu_item("Utdann deg til kokk", function() {the_game.update_tick(); the_game.msg.push(food_msg())}, []));
+        menu.push(add_menu_item("Start på nytt", function() {game = new Game() }, []));
         return menu;
     }
     if (the_game.dept < 100000) {
