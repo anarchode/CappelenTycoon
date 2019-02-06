@@ -5,7 +5,7 @@ document.write("<canvas id='myCanvas' width=" + X + " height=" + Y + "></canvas>
 
 var BACKGROUND = "#7a6560";
 var DETAIL = "#ac7560";
-var LEVELS = [10,20,50,80,100];
+var LEVELS = [5,15,30,50,70];
 var PAGE_X = 10;
 var PAGE_Y = 200;
 
@@ -162,7 +162,7 @@ class Game {
         this.new_hires = this.generate_workers()       
 
         
-        if (this.heat >= 100) {
+        if (this.heat >= 100 && this.status > 0) {
             this.status = -365*21;
             this.msg.push("Busted, pass på heaten!");
         }
@@ -176,6 +176,12 @@ class Game {
         this.heat -= 30;
         this.msg.push("Jensen har rydda litt, heat redusert");
     }  
+
+    snitch() {
+        this.heat -= 25;
+        this.status -= Math.floor(Math.random()*10)+5;
+        this.msg.push("Tysta på en konkurrent, heat redusert, tapt status");
+    }
 
     flowers() {
         this.money -= 5000;  
@@ -248,7 +254,7 @@ class Game {
         this.status += 1;
         this.inventory.push(dope);
         this.money -= price;
-        this.heat += Math.floor(this.avg_worker_heat()/10);
+        this.heat += Math.floor(this.avg_worker_heat()/7);
         this.msg.push("Kjøpt " + dope.quantity + "g " + dope.name);
     }
 
@@ -428,10 +434,11 @@ function generate_menu(the_game) {
     }
     if (the_game.status > LEVELS[0] && the_game.money >= 5000) {
 
-        menu.push(add_menu_item("Blomstermelding: 5000kr", the_game.flowers,[]));
+        menu.push(add_menu_item("Blomstermelding (5000kr)", the_game.flowers,[]));
     }
     if (the_game.status > LEVELS[0] && the_game.money >= 10000 && the_game.heat > 50) {
-        menu.push(add_menu_item("Jensens heat-triks", the_game.heat_trics,[]));
+        menu.push(add_menu_item("Jensens heat-triks (10000kr)", the_game.heat_trics,[]));
+        menu.push(add_menu_item("Tyst på en konkurrent (status)", the_game.snitch,[]));
     }
     //the_game.menu = menu;
     return menu;
