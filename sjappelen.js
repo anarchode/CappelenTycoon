@@ -46,7 +46,7 @@ function status_name(status) {
             index += 1;
         }
     }
-    return criminal_ladder[index];
+    return criminal_ladder[index] + " (" +  status + ")";
 }
 
 function dope_origin() {
@@ -87,7 +87,6 @@ class Game {
         console.log(worker);
         this.network -= (1 + this.workers[worker].network);
         this.workers.splice(worker, 1);
-        console.log("Shit, fire is not implemented");
         this.update_tick();
     }
 
@@ -171,7 +170,8 @@ class Game {
 
 
     heat_trics() {
-        //this.flowers();
+        this.page = flowers_page;
+        this.flower_msg = talk_with_starters(jensen);  
         this.money -= 10000;
         this.heat -= 30;
         this.msg.push("Jensen har rydda litt, heat redusert");
@@ -434,11 +434,13 @@ function generate_menu(the_game) {
     }
     if (the_game.status > LEVELS[0] && the_game.money >= 5000) {
 
-        menu.push(add_menu_item("Blomstermelding (5000kr)", the_game.flowers,[]));
+        menu.push(add_menu_item("Blomstermelding (-5000kr)", the_game.flowers,[]));
     }
-    if (the_game.status > LEVELS[0] && the_game.money >= 10000 && the_game.heat > 50) {
-        menu.push(add_menu_item("Jensens heat-triks (10000kr)", the_game.heat_trics,[]));
-        menu.push(add_menu_item("Tyst på en konkurrent (status)", the_game.snitch,[]));
+    if (the_game.heat > 30) {
+    menu.push(add_menu_item("Tyst på en konkurrent (-status)", the_game.snitch,[]));
+    }
+    if (the_game.status > LEVELS[0] && the_game.money >= 10000 && the_game.heat > 30) {
+        menu.push(add_menu_item("Jensens heat-triks (-10000kr)", the_game.heat_trics,[]));
     }
     //the_game.menu = menu;
     return menu;
